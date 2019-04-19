@@ -1,5 +1,10 @@
 #include <stdio.h> 
-#include <limits.h> 
+#include <limits.h>
+#include <chrono> 
+#include <iostream> 
+using namespace std; 
+using namespace std::chrono; 
+
    
 // Number of vertices in the graph 
 #define V 9 
@@ -15,14 +20,16 @@ int minDistance(int dist[], bool sptSet[]) {
 } 
    
 // A utility function to print the constructed distance array 
-int printSolution(int dist[], int n) 
-{ 
-   printf("Vertex Distance from Source\n"); 
-   for (int i = 0; i < V; i++) 
-      printf("%d to %d\n", i, dist[i]); 
+int printSolution(int dist[], int n) { 
+    printf("Vertex Distance from Source\n"); 
+    for (int i = 0; i < V; i++) {
+        printf("%d to %d\n", i, dist[i]); 
+    }
+    
 } 
    
 void dijkstra(int graph[V][V], int src) { 
+    auto start = high_resolution_clock::now(); 
     int dist[V];     // Hold the shortest distance from src to i 
 
     bool sptSet[V]; 
@@ -47,10 +54,13 @@ void dijkstra(int graph[V][V], int src) {
             if (!sptSet[v] && graph[u][v] && dist[u] != INT_MAX  
                                         && dist[u]+graph[u][v] < dist[v]) 
             dist[v] = dist[u] + graph[u][v]; 
-        } 
-   
-        printSolution(dist, V); 
     } 
+    auto stop = high_resolution_clock::now(); 
+    auto duration = duration_cast<microseconds>(stop - start);
+  
+    cout << "Duration: " << duration.count() << "ms" << endl; 
+    printSolution(dist, V); 
+} 
    
 
 int main() { 
@@ -65,7 +75,6 @@ int main() {
                         {8, 11, 0, 0, 0, 0, 1, 0, 7}, 
                         {0, 0, 2, 0, 0, 0, 6, 7, 0} 
                         }; 
-    
     dijkstra(graph, 0); 
    
     return 0; 
