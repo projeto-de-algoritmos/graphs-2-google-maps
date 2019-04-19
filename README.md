@@ -7,7 +7,7 @@ Considering that each node represents a cross of a map.
 
 ## Compile
 ```bash
-g++ map.cpp -o map
+g++ -std=c++11 map.cpp -o map
 ```
 
 ## Run
